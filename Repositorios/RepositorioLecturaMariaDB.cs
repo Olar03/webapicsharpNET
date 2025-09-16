@@ -15,6 +15,7 @@ using MySql.Data.MySqlClient;                     // Para conectar y ejecutar co
 using webapicsharp.Repositorios.Abstracciones;        // Para implementar la interfaz IRepositorioLecturaTabla
 using webapicsharp.Servicios.Abstracciones;           // Para usar IProveedorConexion y obtener cadenas de conexión
 using webapicsharp.Servicios.Utilidades;
+using webapicsharp.SServicios.Utilidades;
 
 namespace webapicsharp.Repositorios
 {
@@ -104,19 +105,7 @@ namespace webapicsharp.Repositorios
                 // =============================================================================
                 // Manejo de errores especificos Maria DB / MySQL
                 // =============================================================================
-                switch (sqlEx.Number)
-                {
-                    case 1045:
-                        throw new UnauthorizedAccessException("Acceso denegado: credenciales incorrectas en MariaDB.", sqlEx);
-                    case 1146:
-                        throw new InvalidOperationException($"La tabla '{nombreTabla}' no existe en MariaDB.", sqlEx);
-                    case 1049:
-                        throw new InvalidOperationException("La base de datos especificada no existe en MariaDB.", sqlEx);
-                    case 1064:
-                        throw new InvalidOperationException("Error de sintaxis SQL en la consulta enviada a MariaDB.", sqlEx);
-                    default:
-                        throw new InvalidOperationException($"Error de MariaDB al ejecutar operación sobre '{nombreTabla}': {sqlEx.Message}", sqlEx);
-                }
+                throw ManejadorErroresMariaDB.Procesar(sqlEx, nombreTabla);
             }
             catch (Exception ex)
             {
@@ -210,19 +199,7 @@ namespace webapicsharp.Repositorios
                 // =============================================================================
                 // Manejo de errores especificos Maria DB / MySQL
                 // =============================================================================
-                switch (sqlEx.Number)
-                {
-                    case 1045:
-                        throw new UnauthorizedAccessException("Acceso denegado: credenciales incorrectas en MariaDB.", sqlEx);
-                    case 1146:
-                        throw new InvalidOperationException($"La tabla '{nombreTabla}' no existe en MariaDB.", sqlEx);
-                    case 1049:
-                        throw new InvalidOperationException("La base de datos especificada no existe en MariaDB.", sqlEx);
-                    case 1064:
-                        throw new InvalidOperationException("Error de sintaxis SQL en la consulta enviada a MariaDB.", sqlEx);
-                    default:
-                        throw new InvalidOperationException($"Error de MariaDB al ejecutar operación sobre '{nombreTabla}': {sqlEx.Message}", sqlEx);
-                }
+                throw ManejadorErroresMariaDB.Procesar(sqlEx, nombreTabla);
             }
             catch (Exception ex)
             {
@@ -311,19 +288,7 @@ namespace webapicsharp.Repositorios
             catch (MySqlException sqlEx)
             {
                 // Manejo específico de errores de mariaDB/MySQL
-                switch (sqlEx.Number)
-                {
-                    case 1045:
-                        throw new UnauthorizedAccessException("Acceso denegado: credenciales incorrectas en MariaDB.", sqlEx);
-                    case 1146:
-                        throw new InvalidOperationException($"La tabla '{nombreTabla}' no existe en MariaDB.", sqlEx);
-                    case 1049:
-                        throw new InvalidOperationException("La base de datos especificada no existe en MariaDB.", sqlEx);
-                    case 1064:
-                        throw new InvalidOperationException("Error de sintaxis SQL en la consulta enviada a MariaDB.", sqlEx);
-                    default:
-                        throw new InvalidOperationException($"Error de MariaDB al ejecutar operación sobre '{nombreTabla}': {sqlEx.Message}", sqlEx);
-                }
+               throw ManejadorErroresMariaDB.Procesar(sqlEx, nombreTabla);
             }
             catch (Exception ex)
             {
@@ -421,19 +386,9 @@ namespace webapicsharp.Repositorios
             }
             catch (MySqlException sqlEx)
             {
-                switch (sqlEx.Number)
-                {
-                    case 1045:
-                        throw new UnauthorizedAccessException("Acceso denegado: credenciales incorrectas en MariaDB.", sqlEx);
-                    case 1146:
-                        throw new InvalidOperationException($"La tabla '{nombreTabla}' no existe en MariaDB.", sqlEx);
-                    case 1049:
-                        throw new InvalidOperationException("La base de datos especificada no existe en MariaDB.", sqlEx);
-                    case 1064:
-                        throw new InvalidOperationException("Error de sintaxis SQL en la consulta enviada a MariaDB.", sqlEx);
-                    default:
-                        throw new InvalidOperationException($"Error de MariaDB al ejecutar operación sobre '{nombreTabla}': {sqlEx.Message}", sqlEx);
-                }
+                throw ManejadorErroresMariaDB.Procesar(sqlEx, nombreTabla);
+                // Manejo específico de errores de MariaDB/MySQL
+                
             }
             catch (Exception excepcionGeneral)
             {
@@ -494,19 +449,7 @@ namespace webapicsharp.Repositorios
             catch (MySqlException sqlEx)
             {
                 // Manejo específico de errores de MariaDB/MySQL
-                switch (sqlEx.Number)
-                {
-                    case 1045:
-                        throw new UnauthorizedAccessException("Acceso denegado: credenciales incorrectas en MariaDB.", sqlEx);
-                    case 1146:
-                        throw new InvalidOperationException($"La tabla '{nombreTabla}' no existe en MariaDB.", sqlEx);
-                    case 1049:
-                        throw new InvalidOperationException("La base de datos especificada no existe en MariaDB.", sqlEx);
-                    case 1064:
-                        throw new InvalidOperationException("Error de sintaxis SQL en la consulta enviada a MariaDB.", sqlEx);
-                    default:
-                        throw new InvalidOperationException($"Error de MariaDB al ejecutar operación sobre '{nombreTabla}': {sqlEx.Message}", sqlEx);
-                }
+                throw ManejadorErroresMariaDB.Procesar(sqlEx, nombreTabla);
 
             }
             catch (Exception excepcionGeneral)
@@ -572,19 +515,7 @@ namespace webapicsharp.Repositorios
                 // =============================================================================
                 // Manejo de errores especificos Maria DB / MySQL
                 // =============================================================================
-               switch (sqlEx.Number)
-                {
-                    case 1045:
-                        throw new UnauthorizedAccessException("Acceso denegado: credenciales incorrectas en MariaDB.", sqlEx);
-                    case 1146:
-                        throw new InvalidOperationException($"La tabla '{nombreTabla}' no existe en MariaDB.", sqlEx);
-                    case 1049:
-                        throw new InvalidOperationException("La base de datos especificada no existe en MariaDB.", sqlEx);
-                    case 1064:
-                        throw new InvalidOperationException("Error de sintaxis SQL en la consulta enviada a MariaDB.", sqlEx);
-                    default:
-                        throw new InvalidOperationException($"Error de MariaDB al ejecutar operación sobre '{nombreTabla}': {sqlEx.Message}", sqlEx);
-                }
+               throw ManejadorErroresMariaDB.Procesar(sqlEx, nombreTabla);
             }
             catch (Exception ex)
             {
