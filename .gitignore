@@ -1,0 +1,46 @@
+# Archivos binarios y de compilación
+bin/
+obj/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
+
+# Configuración de usuario
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Carpetas de VS Code y Visual Studio
+.vscode/
+.vs/
+
+# Archivos de configuración temporales
+*.cache
+*.log
+*.tmp
+*.pdb
+
+# Paquetes NuGet descargados
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+
+# Archivos de publicación
+*.Publish.xml
+*.pubxml
+*.publishproj
+
+# Configuración de IIS
+*.vspscc
+*.vssscc
+
+# Archivos sensibles
+*.env
+
+
+# Archivos de respaldo
+*.bak
+*.swp
+*.tmp

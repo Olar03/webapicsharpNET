@@ -1,0 +1,659 @@
+@webapicsharp_HostAddress = http://localhost:5156
+
+GET {{webapicsharp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+
+# 1. Consultar todas las facturas (configuración por defecto)
+GET {{webapicsharp_HostAddress}}/api/factura
+Accept: application/json
+
+###
+
+# 2. Consultar facturas con límite específico (solo las primeras 2 facturas)
+GET {{webapicsharp_HostAddress}}/api/factura?limite=2
+Accept: application/json
+
+###
+
+# 3. Consultar facturas con esquema específico (SQL Server)
+GET {{webapicsharp_HostAddress}}/api/factura?esquema=dbo
+Accept: application/json
+
+###
+
+# 4. Consultar facturas con esquema y límite combinados
+GET {{webapicsharp_HostAddress}}/api/factura?esquema=dbo&limite=1
+Accept: application/json
+
+###
+
+# =============================================================================
+# PRUEBAS DE VALIDACIÓN Y MANEJO DE ERRORES
+# =============================================================================
+
+# 5. Probar tabla inexistente (debe devolver 404)
+GET {{webapicsharp_HostAddress}}/api/tabla_que_no_existe
+Accept: application/json
+
+###
+
+# 6. Probar con límite inválido (negativo - debe normalizarse)
+GET {{webapicsharp_HostAddress}}/api/factura?limite=-5
+Accept: application/json
+
+###
+
+# 7. Probar con límite cero (debe normalizarse)
+GET {{webapicsharp_HostAddress}}/api/factura?limite=0
+Accept: application/json
+
+###
+
+# =============================================================================
+# PRUEBAS DE OTRAS TABLAS DE LA BASE DE DATOS
+# =============================================================================
+
+# 8. Consultar tabla persona
+GET {{webapicsharp_HostAddress}}/api/persona
+Accept: application/json
+
+###
+
+# 9. Consultar tabla producto
+GET {{webapicsharp_HostAddress}}/api/producto
+Accept: application/json
+
+###
+
+# 10. Consultar tabla cliente
+GET {{webapicsharp_HostAddress}}/api/cliente
+Accept: application/json
+
+###
+
+# 11. Consultar tabla vendedor
+GET {{webapicsharp_HostAddress}}/api/vendedor
+Accept: application/json
+
+###
+
+# 12. Consultar tabla empresa
+GET {{webapicsharp_HostAddress}}/api/empresa
+Accept: application/json
+
+###
+
+# =============================================================================
+# PRUEBAS DE ENDPOINTS AUXILIARES
+# =============================================================================
+
+# 13. Endpoint de información
+GET {{webapicsharp_HostAddress}}/api/info
+Accept: application/json
+
+###
+
+# 14. Endpoint de bienvenida (raíz)
+GET {{webapicsharp_HostAddress}}/
+Accept: application/json
+
+###
+
+# 15. Filtrar factura por número específico
+GET {{webapicsharp_HostAddress}}/api/factura/numero/1
+Accept: application/json
+
+###
+
+# 16. Filtrar producto por código específico  
+GET {{webapicsharp_HostAddress}}/api/producto/codigo/PRD001
+Accept: application/json
+
+###
+
+# 17. Filtrar cliente por ID específico
+GET {{webapicsharp_HostAddress}}/api/cliente/id/1
+Accept: application/json
+
+###
+# 18. Filtrar factura por fecha específica
+GET {{webapicsharp_HostAddress}}/api/factura/fecha/2025-08-29T07:49:08.33
+Accept: application/json
+
+###
+
+# 19. Filtrar factura con esquema específico
+GET {{webapicsharp_HostAddress}}/api/factura/numero/1?esquema=dbo
+Accept: application/json
+
+###
+
+# 20. Filtrar con esquema incorrecto (debería usar dbo automáticamente)
+GET {{webapicsharp_HostAddress}}/api/factura/numero/1?esquema=ventas
+Accept: application/json
+
+###
+
+# 21. Filtrar cliente con esquema
+GET {{webapicsharp_HostAddress}}/api/cliente/id/1?esquema=dbo
+Accept: application/json
+
+###
+
+# 22. Crear nuevo producto
+POST {{webapicsharp_HostAddress}}/api/producto
+Accept: application/json
+Content-Type: application/json
+
+{
+  "codigo": "PRD006",
+  "nombre": "Producto Nuevo",
+  "stock": 25,
+  "valorunitario": 150.00
+}
+
+###
+
+# 23. Crear usuario con encriptación de contraseña
+POST {{webapicsharp_HostAddress}}/api/usuario?camposEncriptar=contrasena
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "nuevo@test.com",
+  "contrasena": "123"
+}
+
+###
+
+# 24. Crear persona con esquema específico
+POST {{webapicsharp_HostAddress}}/api/persona?esquema=dbo
+Accept: application/json
+Content-Type: application/json
+
+{
+  "codigo": "P004",
+  "nombre": "Nueva Persona",
+  "email": "nueva@email.com",
+  "telefono": "555-9999"
+}
+
+###
+
+# 25. Crear empresa
+POST {{webapicsharp_HostAddress}}/api/empresa
+Accept: application/json
+Content-Type: application/json
+
+{
+  "codigo": "E003",
+  "nombre": "Empresa Nueva S.A."
+}
+
+###
+
+# 26. Crear registro con error (código duplicado)
+POST {{webapicsharp_HostAddress}}/api/producto
+Accept: application/json
+Content-Type: application/json
+
+{
+  "codigo": "PRD001",
+  "nombre": "Producto Duplicado",
+  "stock": 10,
+  "valorunitario": 100.00
+}
+
+###
+
+# 27. Actualizar producto existente
+PUT {{webapicsharp_HostAddress}}/api/producto/codigo/PRD001
+Accept: application/json
+Content-Type: application/json
+
+{
+  "nombre": "Producto A Actualizado",
+  "stock": 45,
+  "valorunitario": 120.00
+}
+
+###
+
+# 28. Actualizar usuario con nueva contraseña encriptada
+PUT {{webapicsharp_HostAddress}}/api/usuario/email/nuevo@test.com?camposEncriptar=contrasena
+Accept: application/json
+Content-Type: application/json
+
+{
+  "contrasena": "nuevapassword456"
+}
+
+###
+
+# 29. Actualizar persona con esquema específico
+PUT {{webapicsharp_HostAddress}}/api/persona/codigo/P001?esquema=dbo
+Accept: application/json
+Content-Type: application/json
+
+{
+  "nombre": "Juan Pérez Actualizado",
+  "telefono": "555-0000"
+}
+
+###
+
+# 30. Actualizar registro inexistente (debe devolver 404)
+PUT {{webapicsharp_HostAddress}}/api/producto/codigo/PRD999
+Accept: application/json
+Content-Type: application/json
+
+{
+  "nombre": "Producto Inexistente",
+  "stock": 10
+}
+
+###
+
+# 31. Actualizar empresa
+PUT {{webapicsharp_HostAddress}}/api/empresa/codigo/E001
+Accept: application/json
+Content-Type: application/json
+
+{
+  "nombre": "Empresa ABC Renovada S.A."
+}
+
+###
+
+# 32. Eliminar producto específico
+DELETE {{webapicsharp_HostAddress}}/api/producto/codigo/PRD006
+Accept: application/json
+
+###
+
+# 33. Eliminar empresa con esquema específico
+DELETE {{webapicsharp_HostAddress}}/api/empresa/codigo/E003?esquema=dbo
+Accept: application/json
+
+###
+
+# 34. Intentar eliminar registro inexistente (debe devolver 404)
+DELETE {{webapicsharp_HostAddress}}/api/producto/codigo/PRD999
+Accept: application/json
+
+###
+
+# 35. Intentar eliminar de tabla prohibida (debe devolver 403)
+DELETE {{webapicsharp_HostAddress}}/api/usuario/email/nuevo@test.com
+Accept: application/json
+
+###
+
+# 36. Intentar eliminar registro con restricción de clave foránea (debe devolver 409)
+DELETE {{webapicsharp_HostAddress}}/api/persona/codigo/P001
+Accept: application/json
+
+###
+
+# 37. Verificar credenciales válidas (usuario existente con contraseña correcta)
+POST {{webapicsharp_HostAddress}}/api/usuario/verificar-contrasena
+Accept: application/json
+Content-Type: application/json
+
+{
+  "campoUsuario": "email",
+  "campoContrasena": "contrasena",
+  "valorUsuario": "nuevo@test.com",
+  "valorContrasena": "123"
+}
+
+###
+
+# 38. Verificar credenciales con contraseña incorrecta (debe devolver 401)
+POST {{webapicsharp_HostAddress}}/api/usuario/verificar-contrasena
+Accept: application/json
+Content-Type: application/json
+
+{
+  "campoUsuario": "email",
+  "campoContrasena": "contrasena",
+  "valorUsuario": "nuevo@test.com",
+  "valorContrasena": "contraseña_incorrecta"
+}
+
+###
+
+# 39. Verificar credenciales de usuario inexistente (debe devolver 404)
+POST {{webapicsharp_HostAddress}}/api/usuario/verificar-contrasena
+Accept: application/json
+Content-Type: application/json
+
+{
+  "campoUsuario": "email",
+  "campoContrasena": "contrasena",
+  "valorUsuario": "inexistente@test.com",
+  "valorContrasena": "cualquier_contraseña"
+}
+
+###
+
+# 40. Verificar con parámetros incompletos (debe devolver 400)
+POST {{webapicsharp_HostAddress}}/api/usuario/verificar-contrasena
+Accept: application/json
+Content-Type: application/json
+
+{
+  "campoUsuario": "email",
+  "valorUsuario": "nuevo@test.com"
+}
+
+###
+
+# 41. Verificar en tabla prohibida (debe devolver 403)
+POST {{webapicsharp_HostAddress}}/api/usuario/verificar-contrasena
+Accept: application/json
+Content-Type: application/json
+
+{
+  "campoUsuario": "email",
+  "campoContrasena": "contrasena",
+  "valorUsuario": "admin@email.com",
+  "valorContrasena": "admin123"
+}
+
+###
+
+# =============================================================================
+# PRUEBAS PARA CONSULTAS SQL PARAMETRIZADAS (ConsultasController)
+# =============================================================================
+
+# 42. Consulta simple sin parámetros
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT TOP 3 * FROM factura"
+}
+
+###
+
+# 43. Consulta con parámetros (filtro por valor)
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT * FROM producto WHERE valorunitario > @precio",
+  "parametros": {
+    "precio": 100
+  }
+}
+
+###
+
+# 44. Consulta con múltiples parámetros
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT * FROM persona WHERE nombre LIKE @nombre AND email LIKE @email",
+  "parametros": {
+    "nombre": "%Juan%",
+    "email": "%@%"
+  }
+}
+
+###
+
+# 45. Error: Consulta vacía (debe devolver 400)
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": ""
+}
+
+###
+
+# 46. Error: Tabla prohibida (debe devolver 403)
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT * FROM usuario"
+}
+
+###
+
+# 47. Error: Operación no permitida (debe devolver 403)
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "DELETE FROM producto WHERE codigo = 'PRD001'"
+}
+
+###
+
+# =============================================================================
+# CONSULTAS COMPLEJAS CON LA BASE DE DATOS REAL
+# =============================================================================
+
+# 48. JOIN correcto: Factura con datos del cliente (persona)
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT f.numero, f.fecha, f.total, p.nombre as cliente_nombre, p.email FROM factura f JOIN cliente c ON f.fkidcliente = c.id JOIN persona p ON c.fkcodpersona = p.codigo WHERE f.total > @total",
+  "parametros": {
+    "total": 500
+  }
+}
+
+###
+
+# 49. JOIN triple: Factura con cliente, vendedor y empresa
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT f.numero, f.fecha, f.total, pc.nombre as cliente_nombre, pv.nombre as vendedor_nombre, e.nombre as empresa_nombre FROM factura f JOIN cliente c ON f.fkidcliente = c.id JOIN persona pc ON c.fkcodpersona = pc.codigo JOIN vendedor v ON f.fkidvendedor = v.id JOIN persona pv ON v.fkcodpersona = pv.codigo LEFT JOIN empresa e ON c.fkcodempresa = e.codigo",
+  "parametros": {}
+}
+
+###
+
+# 50. Resumen de productos por factura con cálculos
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT f.numero as factura_numero, COUNT(pf.fkcodproducto) as cantidad_productos, SUM(pf.cantidad) as unidades_total, SUM(pf.subtotal) as total_productos FROM factura f JOIN productosporfactura pf ON f.numero = pf.fknumfactura WHERE f.fecha >= @fecha GROUP BY f.numero ORDER BY total_productos DESC",
+  "parametros": {
+    "fecha": "2025-08-01"
+  }
+}
+
+###
+
+# 51. Inventario actual con alertas de stock bajo
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT codigo, nombre, stock, valorunitario, CASE WHEN stock < @stock_minimo THEN 'ALERTA: Stock Bajo' WHEN stock = 0 THEN 'CRÍTICO: Sin Stock' ELSE 'OK' END as estado_stock FROM producto WHERE stock <= @stock_alerta ORDER BY stock ASC",
+  "parametros": {
+    "stock_minimo": 15,
+    "stock_alerta": 30
+  }
+}
+
+###
+
+# 52. Análisis de ventas por vendedor con comisiones
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT p.nombre as vendedor, p.email, COUNT(f.numero) as facturas_vendidas, SUM(f.total) as ventas_total, SUM(f.total) * @porcentaje_comision / 100 as comision_ganada FROM vendedor v JOIN persona p ON v.fkcodpersona = p.codigo JOIN factura f ON v.id = f.fkidvendedor GROUP BY p.nombre, p.email ORDER BY ventas_total DESC",
+  "parametros": {
+    "porcentaje_comision": 5
+  }
+}
+
+###
+
+# 53. Productos más vendidos con ranking
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT prod.codigo, prod.nombre, SUM(pf.cantidad) as unidades_vendidas, SUM(pf.subtotal) as ingresos_generados, RANK() OVER (ORDER BY SUM(pf.cantidad) DESC) as ranking_ventas FROM producto prod JOIN productosporfactura pf ON prod.codigo = pf.fkcodproducto GROUP BY prod.codigo, prod.nombre HAVING SUM(pf.cantidad) > @minimo_unidades ORDER BY unidades_vendidas DESC",
+  "parametros": {
+    "minimo_unidades": 1
+  }
+}
+
+###
+
+# 54. Consulta con subconsulta: Clientes con compras superiores al promedio
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT p.nombre, p.email, c.credito, SUM(f.total) as total_compras FROM cliente c JOIN persona p ON c.fkcodpersona = p.codigo JOIN factura f ON c.id = f.fkidcliente GROUP BY p.nombre, p.email, c.credito HAVING SUM(f.total) > (SELECT AVG(total) FROM factura) ORDER BY total_compras DESC",
+  "parametros": {}
+}
+
+###
+
+# 55. Análisis temporal: Ventas por mes con crecimiento
+POST {{webapicsharp_HostAddress}}/api/consultas/ejecutarconsultaparametrizada
+Accept: application/json
+Content-Type: application/json
+
+{
+  "consulta": "SELECT YEAR(fecha) as año, MONTH(fecha) as mes, DATENAME(MONTH, fecha) as nombre_mes, COUNT(*) as cantidad_facturas, SUM(total) as ventas_mes, AVG(total) as promedio_factura FROM factura WHERE fecha >= @fecha_inicio GROUP BY YEAR(fecha), MONTH(fecha), DATENAME(MONTH, fecha) ORDER BY año, mes",
+  "parametros": {
+    "fecha_inicio": "2025-01-01"
+  }
+}
+
+###
+# =============================================================================
+# PRUEBAS PARA PROCEDIMIENTOS ALMACENADOS (ProcedimientosController)
+# =============================================================================
+
+# 56. Ejecutar procedimiento almacenado existente
+POST {{webapicsharp_HostAddress}}/api/procedimientos/ejecutarsp
+Accept: application/json
+Content-Type: application/json
+
+{
+  "nombreSP": "insertar_factura_y_productos",
+  "fkidcliente": 1,
+  "fkidvendedor": 2,
+  "productos": "[{\"fkcodproducto\":\"PRD001\",\"cantidad\":2},{\"fkcodproducto\":\"PRD002\",\"cantidad\":1}]"
+}
+
+###
+
+# 57. Error: Sin nombre de procedimiento (debe devolver 400)
+POST {{webapicsharp_HostAddress}}/api/procedimientos/ejecutarsp
+Accept: application/json
+Content-Type: application/json
+
+{
+  "fkidcliente": 1,
+  "fkidvendedor": 2
+}
+
+###
+
+# 58. Error: Procedimiento inexistente (debe devolver 500)
+POST {{webapicsharp_HostAddress}}/api/procedimientos/ejecutarsp
+Accept: application/json
+Content-Type: application/json
+
+{
+  "nombreSP": "procedimiento_que_no_existe",
+  "parametro1": "valor1"
+}
+
+###
+
+# 59. Procedimiento con encriptación de campos (ACTUALIZADO)
+POST {{webapicsharp_HostAddress}}/api/procedimientos/ejecutarsp?camposEncriptar=contrasena
+Accept: application/json
+Content-Type: application/json
+
+{
+  "nombreSP": "crear_usuario_con_rol",
+  "email": "test2@ejemplo.com",
+  "contrasena": "mi_password_secreto",
+  "rol_nombre": "Vendedor"
+}
+
+###
+
+# 60. Procedimiento con rol específico (ACTUALIZADO)
+POST {{webapicsharp_HostAddress}}/api/procedimientos/ejecutarsp?camposEncriptar=contrasena
+Accept: application/json
+Content-Type: application/json
+
+{
+  "nombreSP": "crear_usuario_con_rol",
+  "email": "admin@ejemplo.com",
+  "contrasena": "admin_password_123",
+  "rol_nombre": "Administrador"
+}
+
+###
+# =============================================================================
+# PRUEBAS PARA ESTRUCTURA DE TABLAS (EstructurasController)
+# =============================================================================
+
+# 61. Obtener modelo/estructura de la tabla factura
+GET {{webapicsharp_HostAddress}}/api/estructuras/factura/modelo
+Accept: application/json
+
+###
+
+# 62. Obtener modelo de tabla con esquema específico
+GET {{webapicsharp_HostAddress}}/api/estructuras/producto/modelo?esquema=dbo
+Accept: application/json
+
+###
+
+# 63. Error: Tabla inexistente (debe devolver 404)
+GET {{webapicsharp_HostAddress}}/api/estructuras/tabla_inexistente/modelo
+Accept: application/json
+
+###
+
+# 64. Obtener estructura completa de la base de datos
+GET {{webapicsharp_HostAddress}}/api/estructuras/basedatos
+Accept: application/json
+
+###
+
+# 65. Obtener estructura de BD con nombre específico
+GET {{webapicsharp_HostAddress}}/api/estructuras/basedatos?nombreBD=bdfacturas77
+Accept: application/json
+
+###
