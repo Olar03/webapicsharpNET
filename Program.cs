@@ -102,8 +102,11 @@ switch (proveedorBD.ToLower())
 {
     case "postgres":
         // Usar PostgreSQL cuando DatabaseProvider = "Postgres"
-        //     builder.Services.AddScoped<webapicsharp.Repositorios.Abstracciones.IRepositorioLecturaTabla,
-        //                               webapicsharp.Repositorios.RepositorioLecturaPostgreSQL>();
+        builder.Services.AddScoped<webapicsharp.Repositorios.Abstracciones.IRepositorioLecturaTabla,
+                                  webapicsharp.Repositorios.RepositorioLecturaPostgreSQL>();
+
+        builder.Services.AddScoped<webapicsharp.Repositorios.Abstracciones.IRepositorioConsultas,
+                                    webapicsharp.Repositorios.RepositorioConsultasSqlServer>();
         break;
     case "mariadb":
     case "mysql":
